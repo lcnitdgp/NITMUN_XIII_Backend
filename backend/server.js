@@ -11,6 +11,7 @@ const fs = require('fs');
 const authRoute = require('./routes/auth.js')
 const registrationsRoute = require("./routes/registrations");
 const mailer = require("./routes/nodemailer");
+//const port = https://nitmun-xiii-backend.onrender.com
 
 var cors = require('cors')
 app.use(cookieParser())
@@ -53,6 +54,6 @@ app.use("/api", mailer);
 
 
 
-app.listen(5000,()=>{
+app.listen(port,()=>{
     console.log("server is running on port 5000");
 })
