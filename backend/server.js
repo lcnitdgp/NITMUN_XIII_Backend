@@ -1,6 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 //const dotenv = require("dotenv");
 require('dotenv').config()
 const helmet = require("helmet");
@@ -55,5 +55,5 @@ app.use("/api", mailer);
 
 
 app.listen(port,()=>{
-    console.log("server is running on port 5000");
+    console.log(`Server is running on port ${port}`);
 })
