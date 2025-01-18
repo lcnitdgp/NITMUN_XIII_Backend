@@ -9,7 +9,7 @@ const { gmail } = require("googleapis/build/src/apis/gmail");
 const CLIENT_ID = '999021726589-7voua5lqmahc85q0ls4dkerr573vg7tg.apps.googleusercontent.com'
 const CLIENT_SECRET = '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'
 const REDIRECT_URI = 'http://localhost:5000'
-const REFRESH_TOKEN = '1//04uwaYlPCROi8CgYIARAAGAQSNwF-L9IrA3tj1CoTnwtmBVzMEBSHlC-GgesR9kVzWv01hGZYSWJt9nUQmr_ZCGNxpLgnjnk83iA'
+const REFRESH_TOKEN = '1//04tecDsfCBv6sCgYIARAAGAQSNwF-L9IrOHFEwWVksiBMUoB1zy01mZ3lltNI8a-XHBgR8RFjB9f55WK1yAeP2mcjehdoVpuseUU'
 // const OAuth2 = google.auth.OAuth2;
 
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET,REDIRECT_URI)
