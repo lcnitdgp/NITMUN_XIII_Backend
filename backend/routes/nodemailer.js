@@ -7,9 +7,9 @@ const { gmail } = require("googleapis/build/src/apis/gmail");
 
 
 const CLIENT_ID = '342427846180-ck4eofu7qid5vjrei69qf3m0bfcpl20p.apps.googleusercontent.com'
-const CLIENT_SECRET = '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'
+const CLIENT_SECRET = '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'
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
-const REFRESH_TOKEN = '1//04cZux98jcossCgYIARAAGAQSNwF-L9IrU_2WTAG4cqxPGoGeSLBzw-crMuTA_xf1jWpQk4zxPHTqkapQTPzu2b_MveScxe_yORU'
+const REFRESH_TOKEN = '1//04lsY2nFyJtR6CgYIARAAGAQSNwF-L9IrXUOkwZFL3ANHwDZADm5P7uwnSbniIFc9uIGPHYFl_9jVw8tB3qnvUkofHWUtJwA7uDA'
 // const OAuth2 = google.auth.OAuth2;
 
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET,REDIRECT_URI)
