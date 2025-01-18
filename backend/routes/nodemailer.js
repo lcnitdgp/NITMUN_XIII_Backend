@@ -28,18 +28,7 @@ router.post("/allotmentmail/:id", async (req, res) => {
 
         // Default email content for participants from other institutes
         let emailSubject = "Registration confirmation";
-        let emailBody = `Greetings <b>${participant.name}</b>,<br/><br/>
-            Following your registration in <b>NITMUN XIII</b>, you are requested to submit a registration fee of <b>Rs 500</b>.<br/>
-            You may pay using UPI to the following people (UPI IDs provided below):<br/><br/>
-            <b>Vedang Chauhan</b> - vedangc03@oksbi (+91 90279 79974)<br/>
-            <b>Poorab Kumar</b> - poorab.kumar@paytm (+91 70639 67246)<br/><br/>
-            Please mention NITMUN XIII - (your name) - (institution) while sending it.<br/>
-            Let us know when and to whom you have made the payment, via mail. Kindly <b>attach a screenshot</b> of the payment record to the email.<br/><br/>
-            Regards,<br/>
-            Ankit Pratap,<br/>
-            Deputy Director General,<br/>
-            NITMUN XIII.<br/>
-            Contact - +91 84342 59139.`;
+        let emailBody = `Greetings <b>${participant.name}</b>,<br/><br/>Following your registration in <b>NITMUN XIII</b>, you are requested to submit a registration fee of <b>Rs 500</b>.<br/>You may pay using UPI to the following people (UPI IDs provided below) :<br/><br/><b>M. Varun Reddy</b> - 8074534088@ibl (+91 80745 34088)<br/><b>Manoj Sai Vardhan</b> - 9515075342@ybl (+91 95150 75342)<br/><br/>Please mention NITMUN XIII- ( your name ) - ( institution ) while sending it. <br/>Let us know when and to whom you have made the payment, via mail. Kindly <b>attach a screenshot</b> of the payment record to the email.<br/><br/><br/>Regards,<br/>Manoj Sai Vardhan,<br/>Under Secretary General,<br/>NITMUN XIII.<br/>Contact number -+919515075342`;
 
         // Custom email content for NIT Durgapur participants
         if (participant.institute === "NIT Durgapur") {
