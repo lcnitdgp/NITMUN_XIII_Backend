@@ -20,26 +20,56 @@ router.post("/allotmentmail/:id", async (req, res) => {
     try {
         // Fetch the participant
         const participant = await registrations.findById(req.params.id);
-        console.log(`Participant ID: ${req.params.id}`);
-        
+        if (!participant) {
+            return res.status(404).json({ message: "Participant not found" });
+        }
+
+        console.log(`Participant ID: ${req.params.id}, Institute: ${participant.institute}`);
+
+        // Default email content for participants from other institutes
+        let emailSubject = "Registration confirmation";
+        let emailBody = `Greetings <b>${participant.name}</b>,<br/><br/>
+            Following your registration in <b>NITMUN XIII</b>, you are requested to submit a registration fee of <b>Rs 500</b>.<br/>
+            You may pay using UPI to the following people (UPI IDs provided below):<br/><br/>
+            <b>Vedang Chauhan</b> - vedangc03@oksbi (+91 90279 79974)<br/>
+            <b>Poorab Kumar</b> - poorab.kumar@paytm (+91 70639 67246)<br/><br/>
+            Please mention NITMUN XIII - (your name) - (institution) while sending it.<br/>
+            Let us know when and to whom you have made the payment, via mail. Kindly <b>attach a screenshot</b> of the payment record to the email.<br/><br/>
+            Regards,<br/>
+            Ankit Pratap,<br/>
+            Deputy Director General,<br/>
+            NITMUN XIII.<br/>
+            Contact - +91 84342 59139.`;
+
+        // Custom email content for NIT Durgapur participants
+        if (participant.institute === "NIT Durgapur") {
+            emailSubject = "Participation Confirmation";
+            emailBody = `Dear <b>${participant.name}</b>,<br/><br/>
+                We are delighted to confirm your participation and look forward to hosting you.<br/><br/>
+                Regards,<br/>
+                Ankit Pratap,<br/>
+                Deputy Director General,<br/>
+                NITMUN XIII.<br/>
+                Contact - +91 84342 59139.`;
+        }
+
         // Update the participant's record
         await registrations.findOneAndUpdate(
             { _id: req.params.id },
             {
                 $set: {
                     Allotedmail: true,
-                    status: "PAYMENT PENDING"
+                    status: participant.institute === "NIT Durgapur" ? "CONFIRMED" : "PAYMENT PENDING"
                 }
             }
         );
-        console.log("participant updated");  // This will now be logged
+        console.log("Participant updated:", req.params.id);
 
         // Generate access token for OAuth2
-        let accessToken = await oAuth2Client.getAccessToken();
-      // console.log("OAuth2 Client:", oAuth2Client);
+        const accessToken = await oAuth2Client.getAccessToken();
 
         // Setup nodemailer transport
-        let transport = nodemailer.createTransport({
+        const transport = nodemailer.createTransport({
             service: 'gmail',
             auth: {
                 type: 'OAuth2',
@@ -53,44 +83,29 @@ router.post("/allotmentmail/:id", async (req, res) => {
                 rejectUnauthorized: false
             }
         });
-       // console.log("Transport created:", transport);
-
-        let p = 0;
-        let cashpay = "";
-        if (participant.institute === "NIT Durgapur") {
-            p = 450;
-            cashpay = "If you want to make the payment through cash you can contact Poorab Kumar (+91 70639 67246) or Zeba Haq (+91 79804 46260)";
-        } else {
-            p = 1049;
-            cashpay = "";
-        }
-
-        console.log("Preparing to send email...");
 
         // Send email
-        const main = async () => {
-            console.log("Sending email...");
-            const info = await transport.sendMail({
-                from: '"Literary Circle, NIT Durgapur" <ankitpratap04@gmail.com>',
-                to: participant.email,
-                subject: "Registration confirmation",
-                text: "",
-                html: `Greetings <b>${participant.name}</b>,<br/><br/>Following your registration in <b>NITMUN XII</b>, you are requested to submit a registration fee of <b>Rs ${p}</b>.<br/>You may pay using UPI to the following people (UPI IDs provided below) :<br/><br/><b>Vedang Chauhan</b> - vedangc03@oksbi (+91 90279 79974)<br/><b>Poorab Kumar</b> - poorab.kumar@paytm (+91 70639 67246)<br/><br/>Please mention NITMUN XII- ( your name ) - ( institution ) while sending it. <br/>Let us know when and to whom you have made the payment, via mail. Kindly <b>attach a screenshot</b> of the payment record to the email.<br/>${cashpay}<br/><br/>Regards,<br/>Navneet Berwal,<br/>Under Secretary General,<br/>NITMUN XII.<br/>Contact number - +91 85296 22552`
-            });
-            console.log("Email sent successfully:", info);
-        }
+        await transport.sendMail({
+            from: '"Literary Circle, NIT Durgapur" <ankitpratap04@gmail.com>',
+            to: participant.email,
+            subject: emailSubject,
+            text: "",
+            html: emailBody
+        });
 
-        await main();  // Await the email sending process
+        console.log("Email sent successfully to:", participant.email);
 
-        // Send a response to the client
+        // Send response to the client
         res.json({
             message: "Email sent successfully"
         });
+
     } catch (err) {
         console.error("Error:", err);
-        res.status(500).json(err);
+        res.status(500).json({ message: "An error occurred while sending the email", error: err });
     }
 });
+
 //2024 NEW Code
 router.post("/paymentmail/:id", async (req, res) => {
     try {
