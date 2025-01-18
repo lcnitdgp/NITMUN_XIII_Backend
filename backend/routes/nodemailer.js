@@ -9,7 +9,7 @@ const { gmail } = require("googleapis/build/src/apis/gmail");
 const CLIENT_ID = '342427846180-ck4eofu7qid5vjrei69qf3m0bfcpl20p.apps.googleusercontent.com'
 const CLIENT_SECRET = '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'
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
-const REFRESH_TOKEN = '1//04tecDsfCBv6sCgYIARAAGAQSNwF-L9IrOHFEwWVksiBMUoB1zy01mZ3lltNI8a-XHBgR8RFjB9f55WK1yAeP2mcjehdoVpuseUU'
+const REFRESH_TOKEN = '1//04cZux98jcossCgYIARAAGAQSNwF-L9IrU_2WTAG4cqxPGoGeSLBzw-crMuTA_xf1jWpQk4zxPHTqkapQTPzu2b_MveScxe_yORU'
 // const OAuth2 = google.auth.OAuth2;
 
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET,REDIRECT_URI)
@@ -73,7 +73,7 @@ router.post("/allotmentmail/:id", async (req, res) => {
             service: 'gmail',
             auth: {
                 type: 'OAuth2',
-                user: 'ankitpratap04@gmail.com',
+                user: 'verve.nitmun@gmail.com',
                 clientId: CLIENT_ID,
                 clientSecret: CLIENT_SECRET,
                 refreshToken: REFRESH_TOKEN,
@@ -86,7 +86,7 @@ router.post("/allotmentmail/:id", async (req, res) => {
 
         // Send email
         await transport.sendMail({
-            from: '"Literary Circle, NIT Durgapur" <ankitpratap04@gmail.com>',
+            from: '"Literary Circle, NIT Durgapur" <verve.nitmun@gmail.com>',
             to: participant.email,
             subject: emailSubject,
             text: "",
@@ -141,7 +141,7 @@ router.post("/paymentmail/:id", async (req, res) => {
             service: 'gmail',
             auth: {
                 type: 'OAuth2',
-                user: 'ankitpratap04@gmail.com',
+                user: 'verve.nitmun@gmail.com',
                 clientId: CLIENT_ID,
                 clientSecret: CLIENT_SECRET,
                 refreshToken: REFRESH_TOKEN,
@@ -154,7 +154,7 @@ router.post("/paymentmail/:id", async (req, res) => {
 
         // Send the payment confirmation email
         await transport.sendMail({
-            from: '"Literary Circle, NIT Durgapur" <ankitpratap04@gmail.com>',
+            from: '"Literary Circle, NIT Durgapur" <verve.nitmun@gmail.com>',
             to: participant.email,
             subject: "Payment Confirmation",
             text: "",
@@ -198,7 +198,7 @@ router.post("/paymentmail/:id", async (req, res) => {
 //             service: 'gmail',
 //             auth: {
 //             type: 'OAuth2',
-//             user: 'ankitpratap04@gmail.com',
+//             user: 'verve.nitmun@gmail.com',
 //             clientId: CLIENT_ID,
 //             clientSecret: CLIENT_SECRET,
 //             refreshToken: REFRESH_TOKEN,
@@ -211,7 +211,7 @@ router.post("/paymentmail/:id", async (req, res) => {
 
 //         const main = async() => {
 //           let info = await transport.sendMail({
-//             from: '"Literary Circle, NIT Durgapur" <ankitpratap04@gmail.com>', 
+//             from: '"Literary Circle, NIT Durgapur" <verve.nitmun@gmail.com>', 
 //             to: participant.email, // list of receivers
 //             subject: "Payment Confirmation ", 
 //             text: "",
