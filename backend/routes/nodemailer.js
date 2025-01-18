@@ -6,9 +6,9 @@ const {google} = require("googleapis");
 const { gmail } = require("googleapis/build/src/apis/gmail");
 
 
-const CLIENT_ID = '999021726589-7voua5lqmahc85q0ls4dkerr573vg7tg.apps.googleusercontent.com'
+const CLIENT_ID = '342427846180-ck4eofu7qid5vjrei69qf3m0bfcpl20p.apps.googleusercontent.com'
 const CLIENT_SECRET = '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'
-const REDIRECT_URI = 'http://localhost:5000'
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
 const REFRESH_TOKEN = '1//04tecDsfCBv6sCgYIARAAGAQSNwF-L9IrOHFEwWVksiBMUoB1zy01mZ3lltNI8a-XHBgR8RFjB9f55WK1yAeP2mcjehdoVpuseUU'
 // const OAuth2 = google.auth.OAuth2;
 
@@ -114,7 +114,15 @@ router.post("/paymentmail/:id", async (req, res) => {
         if (!participant) {
             return res.status(404).json({ message: "Participant not found" });
         }
-        
+
+        // Check if the participant is from NIT Durgapur
+        if (participant.institute === "NIT Durgapur") {
+            console.log(`Payment email skipped for participant from NIT Durgapur: ${req.params.id}`);
+            return res.status(400).json({
+                message: "Payment confirmation email is not required for participants from NIT Durgapur."
+            });
+        }
+
         // Update the participant's status to "RECEIVED PAYMENT"
         await registrations.findByIdAndUpdate(req.params.id, {
             $set: {
@@ -150,7 +158,7 @@ router.post("/paymentmail/:id", async (req, res) => {
             to: participant.email,
             subject: "Payment Confirmation",
             text: "",
-            html: `Dear <b>${participant.name}</b>,<br/><br/>Your payment has been received. We look forward to hosting you.<br/><br/>Regards,<br/>Soumik Biswas,<br/>Deputy Director General,<br/>NITMUN XII.<br/>Contact - +916290575119.`
+            html: `Dear <b>${participant.name}</b>,<br/><br/>Your payment has been received. We look forward to hosting you.<br/><br/>Regards,<br/>Ankit Pratap,<br/>Deputy Director General,<br/>NITMUN XIII.<br/>Contact -+918434259139.`
         });
 
         console.log("Payment confirmation email sent");
@@ -162,7 +170,10 @@ router.post("/paymentmail/:id", async (req, res) => {
 
     } catch (err) {
         console.error("Error:", err);
-        res.status(500).json({ message: "An error occurred while sending the email", error: err });
+        res.status(500).json({
+            message: "An error occurred while sending the email",
+            error: err
+        });
     }
 });
 //2023 CODE 
